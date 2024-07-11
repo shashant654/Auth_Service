@@ -3,6 +3,11 @@ const { PORT } = require("./config/serverConfig");
 const bodyParser = require("body-parser");
 const apiRoutes = require("./routes/index");
 
+const db = require("./models/index");
+require("dotenv").config();
+
+const { User, Role } = require("./models/index");
+
 const app = express();
 
 const prepareAndStartServer = () => {
@@ -13,6 +18,23 @@ const prepareAndStartServer = () => {
 
   app.listen(PORT, async () => {
     console.log(`Server started at ${PORT}`);
+
+    if (process.env.SYNC_DB === "true") {
+      try {
+        await db.sequelize.sync({ alter: true });
+        console.log("Database synchronized successfully");
+      } catch (error) {
+        console.error("Error synchronizing the database:", error);
+      }
+    } else {
+      console.log(
+        "SYNC_DB is not set to true, skipping database synchronization"
+      );
+    }
+
+    const u1 = await User.findByPk(4);
+    const r1 = await Role.findByPk(1);
+    u1.addRole(r1);
   });
 };
 

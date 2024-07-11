@@ -1,9 +1,9 @@
 "use strict";
 const { Model } = require("sequelize");
 
-const bcrypt = require('bcrypt')
-const { SALT } = require('../config/serverConfig');
-const { use } = require("../routes");
+const bcrypt = require("bcrypt");
+const { SALT } = require("../config/serverConfig");
+// const { use } = require("../routes");
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsToMany(models.Role, {
+        through: "User_Roles",
+      });
+      // ___________**** Users have many profiles___________
     }
   }
   User.init(
@@ -42,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
   User.beforeCreate((user) => {
     const encryptedPassword = bcrypt.hashSync(user.password, SALT);
     user.password = encryptedPassword;
-  })
+  });
 
   return User;
 };

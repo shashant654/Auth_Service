@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const { JWT_KEY } = require("../config/serverConfig");
 
 const bcrypt = require("bcrypt");
-const { use } = require("../routes");
+// const { use } = require("../routes");
 
 class UserService {
   constructor() {
