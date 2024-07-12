@@ -31,14 +31,18 @@ const prepareAndStartServer = () => {
         "SYNC_DB is not set to true, skipping database synchronization"
       );
     }
-
-    const u1 = await User.findByPk(4);
-    const r1 = await Role.findByPk(1);
-    u1.addRole(r1);
   });
 };
 
 prepareAndStartServer();
+
+// _______________*****************________________
+
+// const u1 = await User.findByPk(4);
+// const r1 = await Role.findByPk(3);
+// // u1.addRole(r1);
+// const response = await u1.hasRoles(r1)
+// console.log(response);
 
 // _______________*****************________________
 
